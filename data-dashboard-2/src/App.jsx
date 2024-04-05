@@ -1,20 +1,12 @@
-import { useEffect, useState } from 'react'
-import { AreaChart,XAxis,YAxis,Area,Tooltip,Label } from 'recharts';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-
-import './App.css'
-
-import Card from "./component/Card";
-import WeatherRecord from "./component/WeatherRecord";
+import './App.css';
 import DetailView from './routes/DetailView';
-
-const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
-const API_BASE_URL = `http://api.weatherbit.io/v2.0`;
+import Dashboard from './component/Dashboard';
 
 function App() {
+/*
   const [forecastList, setForecastList] = useState([]);
-  const [location, setLocation] = useState("Washington,DC");
+  const [locationWeather, setlocationWeather] = useState("Washington,DC");
   const [date, setDate] = useState("");
   const [maxWeeklyTemp, setMaxWeeklyTemp] = useState(0);
   const [minWeeklyTemp, setMinWeeklyTemp] = useState(1000);
@@ -27,7 +19,7 @@ function App() {
     setMinWeeklyTemp(1000);
 
     //Get JSON
-    const response = await fetch(API_BASE_URL+"/forecast/daily?city="+location+"&units=I&key="+ACCESS_KEY);
+    const response = await fetch(API_BASE_URL+"/forecast/daily?city="+locationWeather+"&units=I&key="+ACCESS_KEY);
     const json = await response.json();
 
     console.log("Data Recieved From API Call:");
@@ -68,9 +60,6 @@ function App() {
       {"day": forecast[6].datetime,
       "avgTemp": (forecast[6].max_temp + forecast[6].min_temp) / 2}
       ]);
-    
-    console.log("Checking for a specific date");
-    console.log(forecastList[0].datetime);
   }
 
   useEffect(() => {
@@ -80,75 +69,30 @@ function App() {
     });    
   },[])
 
+
   const handleDateInput = (e) => setDate(e.target.value);
-  const handleLocationInput = (e) => setLocation(e.target.value);
+  const handleLocationInput = (e) => setlocationWeather(e.target.value);
   const searchDateLocation = () => {
-    if (location.length > 0) {
+    if (locationWeather.length > 0) {
       let results = forecastList.filter((e) => { return e.datetime == date; });
       setForecastList(results);  
     }
     else { alert("Cannot search for date without a location");}
    }
 
+   const location = useLocation();
+   console.log(location);
+   useEffect(() => {
+     console.log(location);
+   }, [location]);*/
+
   return (
     <>
       <BrowserRouter>
         <Routes>
-            <Route index={false} path="/:date" element={<DetailView weeklyForecast={forecastList}/>}/>
+            <Route index={true} path="/" element={<Dashboard/>}/> 
+            <Route index={false} path="/:date/:location" element={<DetailView/>}/>
         </Routes>
-
-      <h1>⛅ Weekly US Weather Forecast</h1>
-      <body>
-        <div>
-          <div id="summaryCards">
-            <Card txt="Average Temp (F):" data={avgWeeklyTemp}/>
-            <Card txt="Min Temp (F):" data={minWeeklyTemp}/>
-            <Card txt="Max Temp (F):" data={maxWeeklyTemp}/>
-          </div>
-          <br/>
-
-          <div id="weeklyWeatherAreaGraph">
-            Average Temperature by Day
-            <AreaChart width={1000} height={250} data={graphData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                </linearGradient>
-                </defs>
-               
-                <XAxis dataKey="day" height={60} sclaeToFit="true">
-                  <Label value="Day of the week" offset={15} position="insideBottom" />  
-                </XAxis> 
-                <YAxis dataKey="avgTemp" sclaeToFit="true" label={{ value: 'Avg Temp (F)', angle: -90, position: 'insideLeft' }} />
-                <Tooltip />
-                <Area type="monotone" dataKey="avgTemp" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-            </AreaChart>
-          </div>
-          <br/>
-          
-          <div id='dashboard'>
-            <b>📍Current Location: {location}</b> 
-            <br/><br/>
-            <div id="search">
-              <input type="text" placeholder="Enter City,State" onChange={handleLocationInput}/> <button onClick={fetchAllWeatherData}>Search</button> 
-              <input type="text" placeholder="Enter Date (YYYY-DD-MM)" onChange={handleDateInput}/> <button onClick={searchDateLocation}>Search</button> 
-            </div>
-            
-            <br/>
-              { forecastList.length > 0 ? (
-                  forecastList.map(
-                    (e) => {
-                      if (e.max_temp > maxWeeklyTemp) {setMaxWeeklyTemp(e.max_temp)}
-                      if (e.min_temp < minWeeklyTemp) {setMinWeeklyTemp(e.min_temp)}
-                      return <WeatherRecord data={e} date={e.datetime} maxTemp={e.max_temp} minTemp={e.min_temp} description={e.weather.description}/>;
-                    })
-              )
-              : null }   
-          </div>
-        </div>
-      </body>
       </BrowserRouter>
     </>
   )

@@ -14,7 +14,7 @@ const WeatherRecord = (props) => {
             <b>Max Temp (F):</b> {props.maxTemp}
             <b>Min Temp (F):</b> {props.minTemp}
             <b>Description:</b> {props.description}
-            <p><Link to={`/${props.date}`}><b>Details</b></Link></p>
+            <p><Link to={`/${props.date}/${props.location}`}><b>Details</b></Link></p>
         </div>
         </>
     )
@@ -24,6 +24,6 @@ WeatherRecord.propTypes =  {
     description: PropTypes.string,
     maxTemp: PropTypes.number,
     minTemp: PropTypes.number,
-    data: PropTypes.object
+    location: PropTypes.string
 }
 export default WeatherRecord;
