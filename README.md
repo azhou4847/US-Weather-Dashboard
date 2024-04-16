@@ -1,4 +1,4 @@
-#*US Weather Dashboard*
+# *US Weather Dashboard*
 
 Submitted by: **Annie Zhou**
 
