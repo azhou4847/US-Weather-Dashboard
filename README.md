@@ -1,4 +1,4 @@
-# Web Development Project 6 - *US Weather Dashboard*
+#*US Weather Dashboard*
 
 Submitted by: **Annie Zhou**
 
