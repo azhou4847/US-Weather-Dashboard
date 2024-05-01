@@ -2,6 +2,9 @@
 
 Submitted by: **Annie Zhou**
 
+This is a weather dashboard that includes a weekly forecast of weather data and visualization and can be customized by city.
+This was made using ReactJs and WeatherBit API.
+
 ## Required Features
 
 The following **required** functionality is completed:
